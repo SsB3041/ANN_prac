@@ -440,10 +440,10 @@ def train_model(dataset, epochs=run_condition.iloc[0,3], lr=0.001, log_steps=1):
         start = time.time()
         for i, alloy_generator in enumerate(dataset):
             
-            cho = alloy_generator.data_sampling(dataset)#single_random_sampling(3)
-            #print(cho)
-            x = cho.iloc[:,:18].values
-            y = cho.iloc[:,18:].values
+            ren = alloy_generator.data_sampling(dataset)#single_random_sampling(3)
+            #print(ren)
+            x = ren.iloc[:,:18].values
+            y = ren.iloc[:,18:].values
 
             loss = train_batch(x, y, model, optimizer)
             total_loss1 += loss
@@ -497,10 +497,10 @@ def train_maml(model, epochs, dataset, lr_inner=0.0001, log_steps=1):
         # Step 3 and 4
         for i, alloy_generator in enumerate(dataset):
             
-            cho = alloy_generator.data_sampling(dataset)#single_random_sampling(3)  ## 새로운 데이터 셋이 들어가야 함...
-            #print(cho)
-            x = cho.iloc[:,:18].values
-            y = cho.iloc[:,18:].values
+            ren = alloy_generator.data_sampling(dataset)#single_random_sampling(3)  ## 새로운 데이터 셋이 들어가야 함...
+            #print(ren)
+            x = ren.iloc[:,:18].values
+            y = ren.iloc[:,18:].values
         
             x, y = np_to_tensor((x,y))
                         
@@ -561,13 +561,13 @@ def train_transfer(model, epochs, dataset, log_steps=1, lr=0.0001, plot=True):
     
     
     alloy_generator = StandardAlloyBatchGenerator()
-    cho = alloy_generator.data_sampling(test_ds)
+    ren = alloy_generator.data_sampling(test_ds)
      
     
     optimizer = keras.optimizers.SGD(learning_rate=lr) 
 
-    x = list(cho.iloc[:,:18].values)
-    y = list(cho.iloc[:,18:].values)
+    x = list(ren.iloc[:,:18].values)
+    y = list(ren.iloc[:,18:].values)
     x = np.array(x)
     y = np.array(y)
     x[:,None]
@@ -586,10 +586,10 @@ def train_transfer(model, epochs, dataset, log_steps=1, lr=0.0001, plot=True):
         start = time.time()
         for i, alloy_generator in enumerate(dataset):
             
-            cho2 = alloy_generator.data_sampling(dataset)
-            #print(cho)
-            x = cho2.iloc[:,:18].values
-            y = cho2.iloc[:,18:].values
+            ren2 = alloy_generator.data_sampling(dataset)
+            #print(ren)
+            x = ren2.iloc[:,:18].values
+            y = ren2.iloc[:,18:].values
 
             loss = train_batch(x, y, copied_model, optimizer)
             total_loss1 += loss
